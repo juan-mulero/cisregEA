@@ -1,0 +1,11 @@
+## Flow of executions
+
+Each file includes one or more functions for the generation of statistics. At the end of each code there is an execution example.
+
+1. **nohup2table**: Generate a metric table using the files with the printed output data of each execution. This output table ('metrics') contains the main alignment statistics reported for each alignmet run: hits@1, hits@5, hits@10, mr, mrr, runtime. Input: path with the nohup files of the alignments. Output: 'metrics' file.
+2. **average_metrics**: Uses the previous metrics files from each of the replicas to generate average statistics. Input: path with the 'metrics' files (same input path as in the previous case). Output: 'average_metrics' files with the main values.
+3. **variability_metrics**: It also uses the metrics files to generate statistics relating to the variability of the data (var, sd and cv). Input: path with the 'metrics' files (same input path as in the previous case). Output: 'variability_metrics' files with the values of variability.
+4. **alignment_results**: Uses the alignment_results_12, kg1_ent_ids and kg2_ent_ids files generated for each pairwise alignment to generate a file listing the aligned entities. This file uses the entity URIs instead of the internal identifiers assigned by OpenEA (the format of the returned alignments). Input: path with alignment results. Output: 'aligned_entities' files for each pairwise alignment.
+5. **count_entities**: Counts the aligned entities based on the type of biological entity. For each biological entity, the following are reported: the number of entities to be aligned (expected), the number of entities aligned (obtained) and the corresponding percentage. Input: path with alignment results (same input path as in the previous case). Output: 'count_entites' files.
+6. **average_entity_count**: Use the above files to obtain average alignment values ​​for each entity type. Input: path with alignment results (same input path as in the previous case). Output: 'average_entity_count' files.
+7. **variability_entity_count**: Use the above files to obtain variability values associated to the entity alignment by biological entity. Input: path with alignment results (same input path as in the previous case). Output: 'variability_entity_count' files.
