@@ -3,6 +3,7 @@
 ## Introduction
 Study of the performance of 20 entity alignment methods in the gene regulation domain, with a special focus on cis-regulatory modules, (CRM) modeled by the [cisreg](https://github.com/juan-mulero/cisreg.git) schema used in [BioGateway](http://ssb4.nt.ntnu.no:23122/sparql). 
 
+The following picture represent the schema used to model the information from different biological databases about enhancers and their relations with other entities. The colored boxes specify the different subgraphs or subdomains: enhancer sequences (crm graph - orange on the top), and their relations with other biological entities of interest, such as target genes (crm2gene graph - yellow on the bottom), transcription factors (crm2tfac graph - brown on the right), and phenotypes (crm2phen graph - red on the left). The blue classes constitute the central entities of each graph, while the green classes are biological classes of interest that were not modeled in detail because they are already present in the BioGateway KG, schema that is interoperable with this one.
 ![Schema](./Figures/schema.png)
 
 The twenty methods used are: AlignE, AliNet, AttrE, BootEA, BootEA-RotatE, GCN-Align, HolE, IMUSE, IPTranE, JAPE, MtransE, ProjE, RDGCN, RSN4EA, RotatE, SimplE, TransD, TransH, TransR.
