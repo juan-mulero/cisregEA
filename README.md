@@ -62,7 +62,7 @@ Within each of these folders or type of alignment, the results corresponding to 
 
 The results corresponding to the performance of the alignment methods by type of biological entity follow a similar file structure. These are found in the 'results.rar' files and include an additional subdivision by alignment method used (example: AttrE). 
 
-The files are zipped due to the high number of files included and for easier storage. Note that only the results used for the evaluation are included, also for space reasons..
+The files are zipped due to the high number of files included and for easier storage. Note that only the results used for the evaluation are included, also for space reasons.
 
 The [Supplementary Tables](./Supplementary_material_Tables.xlsx) and [Supplementary Figures](./Supplementary_material_Figures.pdf) files contain additional material that supports the main text of the manuscript.
 
