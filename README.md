@@ -1,5 +1,8 @@
 # Cis-Regulatory modules - Entity Alignment
 
+## Summary
+![](./Figures/Graphical_Abstract.png)
+
 ## Introduction
 Study of the performance of 20 entity alignment methods in knowledge graphs (KGs) about gene regulation domain, with a special focus on enhancer, the most studied cis-regulatory modules (CRM). These sequences were modeled using the [cisreg](https://github.com/juan-mulero/cisreg.git) schema, which was also used in [BioGateway](http://ssb4.nt.ntnu.no:23122/sparql) to integrate the data from 25 different sources. 
 
