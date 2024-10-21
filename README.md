@@ -4,7 +4,7 @@
 ![](./Figures/Graphical_Abstract.png)
 
 ## Introduction
-Study of the performance of 20 entity alignment methods in knowledge graphs (KGs) about gene regulation domain, with a special focus on enhancer, the most studied cis-regulatory modules (CRM). These sequences were modeled using the [cisreg](https://github.com/juan-mulero/cisreg.git) schema, which was also used in [BioGateway](http://ssb4.nt.ntnu.no:23122/sparql) to integrate the data from 25 different sources. 
+Study of the performance of 20 entity alignment methods in knowledge graphs (KGs) about gene regulation domain, with a special focus on enhancer, the most studied cis-regulatory modules (CRM). These sequences were modeled using the [cisreg](https://github.com/juan-mulero/cisreg.git) schema, which was also used in [BioGateway](https://2312.biogateway.eu/sparql) to integrate the data from 25 different sources. 
 
 The following picture shows this schema used to model the information from different biological databases about enhancers and their relations with other entities. The colored boxes specify the different subgraphs or subdomains: enhancer sequences (crm graph - orange on the top), and their relations with other biological entities of interest, such as target genes (crm2gene graph - yellow on the bottom), transcription factors (crm2tfac graph - brown on the right), and phenotypes (crm2phen graph - red on the left). The blue classes constitute the central entities of each graph, while the green classes are biological classes of interest that were not modeled in detail because they are already present in the BioGateway KG, schema that is interoperable with this one.
 ![Schema](./Figures/schema.png)
