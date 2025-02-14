@@ -9,6 +9,50 @@ Study of the performance of 20 entity alignment methods in knowledge graphs (KGs
 The following picture shows this schema used to model the information from different biological databases about enhancers and their relations with other entities. The colored boxes specify the different subgraphs or subdomains: enhancer sequences (crm graph - orange on the top), and their relations with other biological entities of interest, such as target genes (crm2gene graph - yellow on the bottom), transcription factors (crm2tfac graph - brown on the right), and phenotypes (crm2phen graph - red on the left). The blue classes constitute the central entities of each graph, while the green classes are biological classes of interest that were not modeled in detail because they are already present in the BioGateway KG, schema that is interoperable with this one.
 ![Schema](./Figures/schema.png)
 
+| Vocabulary/Ontology | Prefix | Namespace |
+|---------------------|--------|-----------|
+| Resource Description Framework | rdf | http://www.w3.org/1999/02/22-rdf-syntax-ns# |
+| RDF Schema | rdfs | http://www.w3.org/2000/01/rdf-schema# |
+| Web Ontology Language | owl | https://www.w3.org/2002/07/owl# |
+| Simple Knowledge Organization System | skos | http://www.w3.org/2004/02/skos/core# |
+| Schema.org | schema | https://schema.org/ |
+| Dublin Core terms | dc | http://purl.org/dc/terms/ |
+| Gene Ontology (GO) | obo | http://purl.obolibrary.org/obo/ |
+| Sequence types and features ontology (SO) | obo | http://purl.obolibrary.org/obo/ |
+| Basic Formal Ontology (BFO) | obo | http://purl.obolibrary.org/obo/ |
+| OBO Relations Ontology (RO) | obo | http://purl.obolibrary.org/obo/ |
+| Cell Ontology (CL) | obo | http://purl.obolibrary.org/obo/ |
+| Cell Line Ontology (CLO) | obo | http://purl.obolibrary.org/obo/ |
+| Uber-anatomy ontology (UBERON) | obo | http://purl.obolibrary.org/obo/ |
+| Human Disease Ontology (DO) | obo | http://purl.obolibrary.org/obo/ |
+| Genotype Ontology (GENO) | obo | http://purl.obolibrary.org/obo/ |
+| TOXic Process Ontology (TXPO) | obo | http://purl.obolibrary.org/obo/ |
+| NCBI organismal classification (NCBITaxon) | obo | http://purl.obolibrary.org/obo/ |
+| Evidence & Conclusion Ontology (ECO) | obo | http://purl.obolibrary.org/obo/ |
+| Molecular Interactions Controlled Vocabulary (MI) | obo | http://purl.obolibrary.org/obo/ |
+| Ontology for Biomedical Investigations (OBI) | obo | http://purl.obolibrary.org/obo/ |
+| NCI Thesaurus OBO Edition (NCIT) | obo | http://purl.obolibrary.org/obo/ |
+| Experimental Factor Ontology (EFO) | efo | http://www.ebi.ac.uk/efo/ |
+| BioAssay Ontology (BAO) | bao | http://www.bioassayontology.org/bao# |
+| Semanticscience Integrated Ontology (SIO) | sio | http://semanticscience.org/resource/ |
+| Medical Subject Headings (MeSH) | mesh | https://www.ncbi.nlm.nih.gov/mesh/ |
+| UniProt Knowledgebase | uniprot | http://uniprot.org/uniprot/ |
+| UniProt Knowledgebase | purl_uniprot | http://purl.uniprot.org/uniprot/ |
+| Online Mendelian Inheritance in Man (OMIM) | omim | http://purl.bioontology.org/ontology/OMIM/ |
+| PubMed | pubmed | http://identifiers.org/pubmed/ |
+| PubMed | ncbi_pubmed | https://www.ncbi.nlm.nih.gov/pubmed/ |
+| RefSeq assembly accession | assembly | https://www.ncbi.nlm.nih.gov/assembly/ |
+| NCBI Reference Sequence | nuccore | https://www.ncbi.nlm.nih.gov/nuccore/ |
+| NCBI Gene | ncbigene | http://identifiers.org/ncbigene/ |
+| Biolink Model | biolink | https://w3id.org/biolink/vocab/ |
+| LinkML Model | linkml | https://w3id.org/linkml/ |
+| BioGateway | bgw_hgene | http://rdf.biogateway.eu/gene/9606/ |
+| BioGateway | bgw_hcrm | http://rdf.biogateway.eu/crm/9606/ |
+| BioGateway | bgw_crm2gene | http://rdf.biogateway.eu/crm2pgene/ |
+| BioGateway | bgw_crm2tfac | http://rdf.biogateway.eu/crm2tfac/ |
+| BioGateway | bgw_crm2phen | http://rdf.biogateway.eu/crm2phen/ |
+
+
 We use this schema as a reference because so far we have not found another RDF schema for modeling these sequences, and their relationships with other entities. To align different KGs, we use different databases, i.e., with different sequences and relationships to other entities. We also performed alignments with modified attributes to introduce more variability. These alignment types are detailed later.
 
 The twenty methods used for entity alignment are: AlignE, AliNet, AttrE, BootEA, BootEA-RotatE, GCN-Align, HolE, IMUSE, IPTranE, JAPE, MtransE, ProjE, RDGCN, RSN4EA, RotatE, SimplE, TransD, TransH, TransR. In each run, two graphs (source and target) are aligned to find the common entities. The process of aligning entities from two different graphs generally involves: (1) extracting relevant features of the entities in the graphs (attributes and relations), (2) comparing the features to determine similarity or equivalence, and (3) assigning correspondences between entities that are considered similar or equivalent between graphs.
