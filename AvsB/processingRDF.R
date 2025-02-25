@@ -1,4 +1,4 @@
-AvsB_dataset_subdivision = function (source, target) {
+modAvsmodB_dataset_subdivision = function (source, target, IDs, folder) {
   library(dplyr)
   
   #Preprocessing:
@@ -44,9 +44,7 @@ AvsB_dataset_subdivision = function (source, target) {
                                )
   indexes = which(source$V2 %in% object_properties_source)
   rel_triples_1 = source[indexes,]
-  fwrite(rel_triples_1, "./rel_triples_1", col.names = F, row.names = F, sep = "\t", quote = F)
   attr_triples_1 = source[-indexes,]
-  fwrite(attr_triples_1, "./attr_triples_1", col.names = F, row.names = F, sep = "\t", quote = F)
 
   
   #Entities
@@ -85,9 +83,7 @@ AvsB_dataset_subdivision = function (source, target) {
                                )
   indexes = which(target$V2 %in% object_properties_target)
   rel_triples_2 = target[indexes,]
-  fwrite(rel_triples_2, "./rel_triples_2", col.names = F, row.names = F, sep = "\t", quote = F)
   attr_triples_2 = target[-indexes,]
-  fwrite(attr_triples_2, "./attr_triples_2", col.names = F, row.names = F, sep = "\t", quote = F)
 
   
   #Entities
@@ -102,17 +98,92 @@ AvsB_dataset_subdivision = function (source, target) {
   
   
   ##Relations and splits
-  indexes = which(source_entities %in% target_entities)
-  ent_links = data.frame(source_entities[indexes], source_entities[indexes]) #common entities
+  ###Explicit common entities
+  source_indexes = which(source_entities %in% target_entities)
+  test_links = data.frame(source_entities[source_indexes], source_entities[source_indexes]) #common entities
+  
+  ###Non-explicit common entities
+  source_indexes = c()
+  target_indexes = c()
+  IDs_source = c()
+  IDs_target = c()
+  for (i in 1:nrow(IDs)){
+    ID_source = IDs$source_newIDs[i]
+    indexes = grep(ID_source, source_entities)
+    source_indexes = c(source_indexes, indexes)
+    IDs_source = c(IDs_source, rep(ID_source, length(indexes)))
+    
+    ID_target = IDs$target_newIDs[i]
+    indexes = grep(ID_target, target_entities)
+    target_indexes = c(target_indexes, indexes)
+    IDs_target = c(IDs_target, rep(ID_target, length(indexes)))
+  }
+  diff_source_entities = data.frame(source_newIDs = IDs_source, 
+                                    source_entities = source_entities[source_indexes],
+                                    entities = source_entities[source_indexes])
+  diff_target_entities = data.frame(target_newIDs = IDs_target, 
+                                    target_entities = target_entities[target_indexes], 
+                                    entities = target_entities[target_indexes])
+  
+  for(i in 1:nrow(diff_source_entities)){
+    diff_source_entities$entities[i] = gsub(diff_source_entities$source_newIDs[i], "#sub#", diff_source_entities$entities[i])
+  }
+  for(i in 1:nrow(diff_target_entities)){
+    diff_target_entities$entities[i] = gsub(diff_target_entities$target_newIDs[i], "#sub#", diff_target_entities$entities[i])
+  }
+  
+  IDs = merge(IDs, diff_source_entities, by = "source_newIDs", all.x = T)
+  IDs = merge(IDs, diff_target_entities, by = c("target_newIDs", "entities"), all.x = T)
+  IDs = IDs[,4:5]
+  IDs = na.omit(IDs)
+  colnames(IDs) = colnames(test_links) = c("source", "target")
+  test_links = rbind(test_links, IDs)
+
+  ###Entities set
+  source_indexes = which(source_entities %in% test_links$source)
+  target_indexes = which(target_entities %in% test_links$target)
+  
+  ent_links = data.frame(source = c(source_entities[-source_indexes], target_entities[-target_indexes], test_links$source), 
+                         target = c(source_entities[-source_indexes], target_entities[-target_indexes], test_links$target))
+  ent_links = ent_links[!duplicated(ent_links),]
   fwrite(ent_links, "./ent_links", col.names = F, row.names = F, sep = "\t", quote = F)
+  
+  train_links = anti_join(ent_links, test_links)
+  files = list.files(folder)
+  if (length(files) > 0) {
+    for (i in 1:length(files)){
+      sample = sample(1:nrow(train_links), 0.1*nrow(train_links), replace = F)
+      valid_links = train_links[sample,]
+      fwrite(valid_links, paste0("./", folder, "/", i, "/valid_links"), col.names = F, row.names = F, sep = "\t", quote = F)
+      fwrite(train_links[-sample,], paste0("./", folder, "/", i, "/train_links"), col.names = F, row.names = F, sep = "\t", quote = F)
+      fwrite(test_links, paste0("./", folder, "/", i, "/test_links"), col.names = F, row.names = F, sep = "\t", quote = F)
+    }
+  }
+
+  ##Final sets:
+  rel_triples = rbind(rel_triples_1, rel_triples_2)
+  rel_triples = rel_triples[!duplicated(rel_triples),]
+  fwrite(rel_triples, "./rel_triples_1", col.names = F, row.names = F, sep = "\t", quote = F)
+  fwrite(rel_triples, "./rel_triples_2", col.names = F, row.names = F, sep = "\t", quote = F)
+  
+  attr_triples = rbind(attr_triples_1, attr_triples_2)
+  attr_triples = attr_triples[!duplicated(attr_triples),]
+  fwrite(attr_triples, "./attr_triples_1", col.names = F, row.names = F, sep = "\t", quote = F)
+  fwrite(attr_triples, "./attr_triples_2", col.names = F, row.names = F, sep = "\t", quote = F)
 }
 
 #Reading:
 library(data.table)
-source = fread("../datasets/all/EnDisease.nt", header = F, sep = ">", quote = "", fill = T)
+source = fread("../datasets/diffIDs/diff_db/ENdb-DiseaseEnhancer/source/all/ENdb.nt", 
+               header = F, sep = ">", quote = "", fill = T)
 source = source[!duplicated(source),]
 
-target = fread("../datasets/all/DiseaseEnhancer.nt", header = F, sep = ">", quote = "", fill = T)
+target = fread("../datasets/diffIDs/diff_db/ENdb-DiseaseEnhancer/target/all/DiseaseEnhancer.nt", 
+               header = F, sep = ">", quote = "", fill = T)
 target = target[!duplicated(target),]
+folder = "721_5fold"
 
-AvsB_dataset_subdivision(source, target)
+IDs = fread("../datasets/diffIDs/diff_db/ENdb-DiseaseEnhancer/IDs/ENdb-DiseaseEnhancer.tsv",
+            header = T, sep = "\t")
+
+modAvsmodB_dataset_subdivision(source, target, IDs, folder)
