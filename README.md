@@ -1,7 +1,7 @@
 # Cis-Regulatory modules - Entity Alignment
 
 ## Summary
-![](./Figures/Graphical_Abstract.png)
+![](./docs/Figures/Graphical_Abstract.png)
 
 ## Contents
 
@@ -113,7 +113,7 @@ Different use cases were studied to explore the performance against different sc
 ## Workflow
 To carry out the experiments, a standardised workflow based on the [cisreg](https://github.com/juan-mulero/cisreg.git) and [OpenEA](https://github.com/nju-websoft/OpenEA.git) packages was followed.
 
-![Workflow](./Figures/Pipeline.png)
+![Workflow](./docs/Figures/Pipeline.png)
 
 1. **Step 1 - Preproccesing**: The original database files are pre-processed using [dataset-specific codes](https://github.com/juan-mulero/cisreg/tree/main/Rcodes) to standardize the data input in the automatic generation of RDF files. For example, EnDisease and RefSeq database annotate enhancers using the hg38 reference genome, but ENdb, DiseaseEnhancer and VISTA use the hg19 assembly. Sequences of different assemblies are not directly comparable, so all sequences were remapped using the later hg38 assembly and the [liftOver](https://bioconductor.org/packages/liftOver/) package. Other operations were carried out to facilitate the execution of an automatic workflow for the subsequent RDF files generation, but they differ according to the dataset due to the specific features of each source, so we refer the users to the respective codes.
 
