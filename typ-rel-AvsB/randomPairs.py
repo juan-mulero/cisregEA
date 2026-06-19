@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Sun Jul 16 13:02:59 2023
-
-@author: gines
-"""
 
 import numpy as np
 import os
@@ -65,8 +60,4 @@ for dir_out in list_dir_out:
         for pair_val in val_ent:
             pattern_val = pair_val[0] + "\t" + pair_val[1]+ "\n"
             val_file.write(pattern_val)
-
-
-
-
 

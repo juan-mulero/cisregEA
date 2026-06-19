@@ -109,10 +109,10 @@ AvsB_dataset_subdivision = function (source, target) {
 
 #Reading:
 library(data.table)
-source = fread("../datasets/all/EnDisease.nt", header = F, sep = ">", quote = "", fill = T)
+source = fread("./datasets/all/EnDisease.nt", header = F, sep = ">", quote = "", fill = T)
 source = source[!duplicated(source),]
 
-target = fread("../datasets/all/DiseaseEnhancer.nt", header = F, sep = ">", quote = "", fill = T)
+target = fread("./datasets/all/DiseaseEnhancer.nt", header = F, sep = ">", quote = "", fill = T)
 target = target[!duplicated(target),]
 
 AvsB_dataset_subdivision(source, target)

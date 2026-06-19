@@ -3,11 +3,41 @@
 ## Summary
 ![](./Figures/Graphical_Abstract.png)
 
-## Introduction
-Study of the performance of 20 entity alignment methods in knowledge graphs (KGs) about gene regulation domain, with a special focus on enhancer, the most studied cis-regulatory modules (CRM). These sequences were modeled using the [cisreg](https://github.com/juan-mulero/cisreg.git) schema, which was also used in [BioGateway](https://2312.biogateway.eu/sparql) to integrate the data from 25 different sources. 
+## Contents
 
-The following picture shows this schema used to model the information from different biological databases about enhancers and their relations with other entities. The colored boxes specify the different subgraphs or subdomains: enhancer sequences (crm graph - orange on the top), and their relations with other biological entities of interest, such as target genes (crm2gene graph - yellow on the bottom), transcription factors (crm2tfac graph - brown on the right), and phenotypes (crm2phen graph - red on the left). The blue classes constitute the central entities of each graph, while the green classes are biological classes of interest that were not modeled in detail because they are already present in the BioGateway KG, schema that is interoperable with this one.
-![Schema](./Figures/schema.png)
+### Repository Contents
+
+This repository includes the code and results of a study on the performance of different entity alignment methods in various experimental contexts. Consequently, the repository is organized around these experimental contexts:
+
+- [AvsA](./AvsA/). Entity alignment in identical graphs.
+- [attr-AvsB/](./attr-AvsB/). Entity alignment in with differences at the attribute level.
+- [rel-AvsB/](./rel-AvsB/). Entity alignment in with differences at the relationship level.
+- [AvsB](./AvsB/). Entity alignment in with differences at both levels (attributes and relationships).
+- [typ-rel-AvsB/](./typ-rel-AvsB/). Methodological variant of entity alignment in with differences at the relationship level.
+
+Each section/folder contains four main files: the dataset used (datasets.rar), the code of data preprocessing (processingRDF.R file), the entity alignment results (results.rar file), and the metric results (metrics.rar file).
+
+- [scripts_metrics](./scripts_metrics/). Code to obtain metrics from the entity alignment results.
+- [docs](./docs/). Figures included in the repository and Supplementary material of the experiments ([figures](./docs/Supplementary_material_Figures.pdf) and [tables](./docs/Supplementary_material_Tables.xlsx)). This directory also includes the semantic schemas of reference.
+
+
+### Readme Contents
+
+- [Introduction](#introduction). Study landscape.
+- [Types of pairwise alignments](#types-of-pairwise-alignments). Experimental contexts explored.
+- [Workflow](#workflow). Workflow for reproducing the pipeline.
+- [Metrics](#metrics). Details about the metrics analyzed.
+- [Results](#results). Details about the results obtained.
+- [Citation](#citation). Publication to be cited.
+
+
+## Introduction
+Study of the performance of 20 entity alignment methods in knowledge graphs (KGs) about gene regulation domain, with a special focus on enhancer, the most studied cis-regulatory modules (CRM). These sequences were modeled using the [cisreg](https://github.com/juan-mulero/cisreg.git) schema, which was also used in [BioGateway](https://semantics.inf.um.es/biogateway) to integrate the data from 25 different sources. These schemas are also available in the directory [/docs/schemas](./docs/schemas/).
+
+The following picture shows a representation of these schemas used to model the information from different biological databases about enhancers and their relations with other entities. The colored boxes specify the different subgraphs or subdomains: enhancer sequences (crm graph - orange on the top), and their relations with other biological entities of interest, such as target genes (crm2gene graph - yellow on the bottom), transcription factors (crm2tfac graph - brown on the right), and phenotypes (crm2phen graph - red on the left). The blue classes constitute the central entities of each graph, while the green classes are biological classes of interest that were not modeled in detail because they are already present in the BioGateway KG, schema that is interoperable with this one.
+![Schema](./docs/Figures/schema.png)
+
+The following table also includes the vobularies employed.
 
 | Vocabulary/Ontology | Prefix | Namespace |
 |---------------------|--------|-----------|
@@ -52,7 +82,6 @@ The following picture shows this schema used to model the information from diffe
 | BioGateway | bgw_crm2tfac | http://rdf.biogateway.eu/crm2tfac/ |
 | BioGateway | bgw_crm2phen | http://rdf.biogateway.eu/crm2phen/ |
 
-
 We use this schema as a reference because so far we have not found another RDF schema for modeling these sequences, and their relationships with other entities. To align different KGs, we use different databases, i.e., with different sequences and relationships to other entities. We also performed alignments with modified attributes to introduce more variability. These alignment types are detailed later.
 
 The twenty methods used for entity alignment are: AlignE, AliNet, AttrE, BootEA, BootEA-RotatE, GCN-Align, HolE, IMUSE, IPTranE, JAPE, MtransE, ProjE, RDGCN, RSN4EA, RotatE, SimplE, TransD, TransH, TransR. In each run, two graphs (source and target) are aligned to find the common entities. The process of aligning entities from two different graphs generally involves: (1) extracting relevant features of the entities in the graphs (attributes and relations), (2) comparing the features to determine similarity or equivalence, and (3) assigning correspondences between entities that are considered similar or equivalent between graphs.
@@ -64,17 +93,20 @@ Each graph contains, in the form of RDF triples, the information belonging to di
 - [VISTA](https://enhancer.lbl.gov/)
 - [RefSeq](https://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/)
 
-Since the [databases](./datasets.rar) contain different types of biological entities that can be modeled in different graphs, a study of the performance of the methods using all domains or graphs (all), and different subdomains (crm, crm2gene, crm2phen and crm2tfac) was also carried out.
+Since the databases contain different types of biological entities that can be modeled in different graphs, a study of the performance of the methods using all domains or graphs (all), and different subdomains (crm, crm2gene, crm2phen and crm2tfac) was also carried out. The RDF files associated with these datasets are located in the datasets.rar files within the directory for each experimental approach.
 
 
 ## Types of pairwise alignments
 
-Different use cases were studied to explore the performance against different scenarios. Alignments of identical graphs ([AvsA](./AvsA/)) and alignments of different graphs at various levels: at attribute level ([attr-AvsB](./attr-AvsB/)), at edge level ([typ-rel-AvsB](./typ-AvsB/) and [mod-rel-AvsB](./rel-AvsB/)), and at attribute and edge level ([AvsB](./mod-AvsB/)).
+Different use cases were studied to explore the performance against different scenarios. Alignments of identical graphs ([AvsA](./AvsA/)) and alignments of different graphs at various levels: at attribute level ([attr-AvsB](./attr-AvsB/)), at edge level ([typ-rel-AvsB](./typ-AvsB/) and [rel-AvsB](./rel-AvsB/)), and at attribute and edge level ([AvsB](./AvsB/)).
 
  - In AvsA alignment, two identical graphs are compared. Since each graph represents the information of one database, the data of the database is aligned against itself. It is expected that this type of alignment gives the best possible alignment results. The results can be particularly useful to evaluate the performance of different alignment methods against a specific domain, with a certain model. However, the results could also be used for other purposes, like the evaluation of the database quality, or whether the semantic schema models the entities with a degree of detail that facilitates the adequate performance of the alignment methods.
+
  - In attr-AvsB type alignments the entities are the same real-world entities and have the same relationships, but they have different attributes. In the schema used, each CRM with unique coordinates is modeled as a different entity, and has a unique identifier. The 'definition' attribute of this entity is determined by the sequence coordinates, while its label derives from the identifier. This design is due to the lack of standard for naming CRM sequences. Therefore, sequences with the same coordinates have the same attributes. For this reason, in this alignment type we align equal databases in which the sequence names differ from each other, and for this we modify the identifiers of the sequences. The coordinates remain the same, because if they varied they would be different sequences.
- - In typical rel-AvsB (typ-rel-AvsB), entities with different relationships but the same attributes are aligned. That is, CRM sequences hosted in different databases are aligned. Since not all databases have enough common entities, a methodological variant was implemented to carry out these alignments (modified rel-AvsB or mod-rel-AvsB). In short, both databases are merged to generate a larger graphs (A+B vs B+A). The proper entities from each database are used for training and validation, while the common ones are used for testing. Therefore, the common entities, which can be reduced, do not need to be split up, but can be used to evaluate the performance of the method to align distinct entities from two different datasets. 
- - In AvsB type alignments, both the relationships and the attributes of the entities are different. As in AvsB type alignments, sequences from different databases are aligned, but in this case the names of the sequences are also different. Also like in the attr-AvsB case, we did not modify the attributes associated with the coordinates of the sequences because this would generate different entities. The modified methodology was also used in this case (AvsB, modified AvsB, or mod-AvsB).
+
+ - In typical rel-AvsB (typ-rel-AvsB), entities with different relationships but the same attributes are aligned. That is, CRM sequences hosted in different databases are aligned. Since not all databases have enough common entities, a methodological variant was implemented to carry out these alignments (rel-AvsB). In short, both databases are merged to generate a larger graphs (A+B vs B+A). The proper entities from each database are used for training and validation, while the common ones are used for testing. Therefore, the common entities, which can be reduced, do not need to be split up, but can be used to evaluate the performance of the method to align distinct entities from two different datasets. 
+
+ - In AvsB type alignments, both the relationships and the attributes of the entities are different. As in AvsB type alignments, sequences from different databases are aligned, but in this case the names of the sequences are also different. Also like in the attr-AvsB case, we did not modify the attributes associated with the coordinates of the sequences because this would generate different entities. The modified methodology was also used in this case (AvsB).
 
 
 
@@ -84,11 +116,16 @@ To carry out the experiments, a standardised workflow based on the [cisreg](http
 ![Workflow](./Figures/Pipeline.png)
 
 1. **Step 1 - Preproccesing**: The original database files are pre-processed using [dataset-specific codes](https://github.com/juan-mulero/cisreg/tree/main/Rcodes) to standardize the data input in the automatic generation of RDF files. For example, EnDisease and RefSeq database annotate enhancers using the hg38 reference genome, but ENdb, DiseaseEnhancer and VISTA use the hg19 assembly. Sequences of different assemblies are not directly comparable, so all sequences were remapped using the later hg38 assembly and the [liftOver](https://bioconductor.org/packages/liftOver/) package. Other operations were carried out to facilitate the execution of an automatic workflow for the subsequent RDF files generation, but they differ according to the dataset due to the specific features of each source, so we refer the users to the respective codes.
-2. **Step 2 - RDF data generation**: [Generation of RDF files](https://github.com/juan-mulero/cisreg/tree/main/cisreg) that will constitute the different graphs. These files have been included in ['datasets'](./datasets.rar). Each graph contains, in the form of triples, the data stored in each database used as sample. Since each database also contains different biological subdomains, graphs with all sudomains (all) and with specific subdomains were generated (crm, crm2gene, crm2phe and crm2tfac).
-3. **Step 3 - Data preparation of entity characteristics**: Preparation of the input data. Three kinds of files for each pairwise alignment: one file for the attributes of the entities of each graph, one file for the relationships, and other for the entities. The 'processingRDF.R' codes used are stored in the folders for each use case tested ([AvsA](./AvsA/), [attr-AvsB](./attr-AvsB/), [mod-rel-AvsB](./mod-rel-AvsB/), [typ-rel-AvsB](./typ-rel-AvsB/), [AvsB](./AvsB/)).
-4. **Step 4 - Training data preparation**: It is also part of the preparation of the input data. The alignment methods require a previous training based on a seed alignment. Therefore, the entity file (ent_links), where the entities of both graphs are linked, is randomly divided into three subsets for training, testing and validation in a ratio 7:2:1 respectively. This task is performed through the 'randomPairs.py' code included in each use case. When this file is not present, the subdivision is part of the previous preprocessing process due to a reduced number of common entities that prevents that this subdivision ratio is effective.
+
+2. **Step 2 - RDF data generation**: [Generation of RDF files](https://github.com/juan-mulero/cisreg/tree/main/cisreg) that will constitute the different graphs. These files have been included in 'datasets.rar' file within the directory for each experimental approach. Each graph contains, in the form of triples, the data stored in each database used as sample. Since each database also contains different biological subdomains, graphs with all sudomains (all) and with specific subdomains were generated (crm, crm2gene, crm2phe and crm2tfac).
+
+3. **Step 3 - Data preparation of entity characteristics**: Preparation of the input data. Three kinds of files for each pairwise alignment: one file for the attributes of the entities of each graph, one file for the relationships, and other for the entities. The 'processingRDF.R' codes used are stored in the folders for each use case tested ([AvsA](./AvsA/processingRDF.R), [attr-AvsB](./attr-AvsB/processingRDF.R), [rel-AvsB](./rel-AvsB/processingRDF.R), [typ-rel-AvsB](./typ-rel-AvsB/processingRDF.R), [AvsB](./AvsB/processingRDF.R)).
+
+4. **Step 4 - Training data preparation**: It is also part of the preparation of the input data. The alignment methods require a previous training based on a seed alignment. Therefore, the entity file (ent_links), where the entities of both graphs are linked, is randomly divided into three subsets for training, testing and validation in a ratio 7:2:1 respectively. This task is performed through the 'randomPairs.py' code included in each use case. When this file is not present, the subdivision is part of the previous preprocessing process ('processingRDF.R') due to a reduced number of common entities that prevents that this subdivision ratio is effective.
+
 5. **Step 5 - Entity alignment**: Pairwise alignment using the previously generated input files, and the 20 different methods indicated above under their default configuration. The [OpenEA](https://github.com/nju-websoft/OpenEA.git) package was used for this run and, although OpenEA offers a total of 25 methods, we discarded 5 of them mainly due to the high error rate obtained with this default configuration and input data. To provide more statistical significance, each alignment was executed in duplicate using two different samples, i.e. same KGs, but different distribution of entities between the training, testing and validation subsets. We also set a memory limit of 250 GB, and a time limit of 48h to start the entity alignment processes after the launch.
-6. **Step 6 - Evaluation of results**: We analyze the results of the metrics returned by the entity alignments to identify the best performing methods, with a special focus on the hits@1 and execution time values, and we count the number of aligned entities per biological entity type to identify the performance per entity type. The codes corresponding to the generation of statistics are stored in the [scripts_metrics](./scripts_metrics/) folder. The files corresponding to the metrics are available in the 'metric' folders of each alignment type, while the files corresponding to the entity count are in the 'results' folders. Not all methods could complete a successful alignment in all the experiments performed. Error reports were also included in these cases.
+
+6. **Step 6 - Evaluation of results**: We analyze the results of the metrics returned by the entity alignments to identify the best performing methods, with a special focus on the hits@1 and execution time values, and we count the number of aligned entities per biological entity type to identify the performance per entity type. The codes corresponding to the generation of statistics are stored in the [scripts_metrics](./scripts_metrics/) folder. The [README](./scripts_metrics/README.md) file associated with this section includes the order in which the code should be executed. The resulting files corresponding to the metrics are available in the 'metric' folders of each alignment type, while the files corresponding to the entity count are in the 'results' folders. Not all methods could complete a successful alignment in all the experiments performed. Error reports were also included in these cases.
 
 
 ## Metrics
@@ -103,7 +140,7 @@ Since we performed replicates for each alignment, variables of data variability 
 
 
 ## Results
-Nearly 3000 executions are reported. The results are organized according to the type of alignment performed ([AvsA](./AvsA/), [attr-AvsB](./attr-AvsB/), [typ-rel-AvsB](./typ-rel-AvsB/), [mod-rel-AvsB](./mod-rel-AvsB//), [AvsB](./AvsB/)). 
+Nearly 3000 executions are reported. The results are organized according to the type of alignment performed ([AvsA](./AvsA/), [attr-AvsB](./attr-AvsB/), [typ-rel-AvsB](./typ-rel-AvsB/), [rel-AvsB](./rel-AvsB//), [AvsB](./AvsB/)). 
 
 Within each of these folders or type of alignment, the results corresponding to the alignment metrics are organized in the 'metric.rar' file, by graphs used in pairwise alignment (example: ENdb-EnDisease), domains used (ex: crm), and sample/replicate (ex: 1). 
 
@@ -111,7 +148,24 @@ The results corresponding to the performance of the alignment methods by type of
 
 The files are zipped due to the high number of files included and for easier storage. Note that only the results used for the evaluation are included, also for space reasons.
 
-The [Supplementary Tables](./Supplementary_material_Tables.xlsx) and [Supplementary Figures](./Supplementary_material_Figures.pdf) files contain additional material that supports the main text of the manuscript.
+The [Supplementary Tables](./docs/Supplementary_material_Tables.xlsx) and [Supplementary Figures](./docs/Supplementary_material_Figures.pdf) files contain additional material that supports the main text of the manuscript.
 
 
+## Citation
 
+The content of this repository is associated with the publication: [https://doi.org/10.1109/ACCESS.2025.3649436](https://doi.org/10.1109/ACCESS.2025.3649436)
+
+Mulero-Hernández, J., Almagro-Hernández, G., & Fernández-Breis, J. T. (2025). Graph Alignment Methods for the Development of Interoperable Gene Regulation Knowledge Graphs. IEEE Access, 14, 792-814. https://doi.org/10.1109/ACCESS.2025.3649436
+
+```
+@article{mulero2025graph,
+  title={Graph Alignment Methods for the Development of Interoperable Gene Regulation Knowledge Graphs},
+  author={Mulero-Hern{\'a}ndez, Juan and Almagro-Hern{\'a}ndez, Gin{\'e}s and Fern{\'a}ndez-Breis, Jesualdo Tom{\'a}s},
+  journal={IEEE Access},
+  volume={14},
+  pages={792--814},
+  year={2025},
+  publisher={IEEE}
+  doi={10.1109/ACCESS.2025.3649436}
+}
+```

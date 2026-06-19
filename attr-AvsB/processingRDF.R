@@ -91,9 +91,9 @@ AvsAmod_dataset_subdivision = function (source, target) {
 
 #Reading:
 library(data.table)
-source = fread("../datasets/diffIDs/equal_db/source/all/ENdb.nt", header = F, sep = ">", quote = "", fill = T)
+source = fread("./datasets/source/all/ENdb.nt", header = F, sep = ">", quote = "", fill = T)
 source = source[!duplicated(source),]
-target = fread("../datasets/diffIDs/equal_db/target/all/ENdb.nt", header = F, sep = ">", quote = "", fill = T)
+target = fread("./datasets/target/all/ENdb.nt", header = F, sep = ">", quote = "", fill = T)
 target = target[!duplicated(target),]
 
 AvsAmod_dataset_subdivision(source, target)

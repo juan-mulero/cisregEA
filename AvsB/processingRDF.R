@@ -174,16 +174,16 @@ modAvsmodB_dataset_subdivision = function (source, target, IDs, folder) {
 
 #Reading:
 library(data.table)
-source = fread("../datasets/diffIDs/diff_db/ENdb-DiseaseEnhancer/source/all/ENdb.nt", 
+source = fread("./datasets/ENdb-DiseaseEnhancer/source/all/ENdb.nt", 
                header = F, sep = ">", quote = "", fill = T)
 source = source[!duplicated(source),]
 
-target = fread("../datasets/diffIDs/diff_db/ENdb-DiseaseEnhancer/target/all/DiseaseEnhancer.nt", 
+target = fread("./datasets/ENdb-DiseaseEnhancer/target/all/DiseaseEnhancer.nt", 
                header = F, sep = ">", quote = "", fill = T)
 target = target[!duplicated(target),]
 folder = "721_5fold"
 
-IDs = fread("../datasets/diffIDs/diff_db/ENdb-DiseaseEnhancer/IDs/ENdb-DiseaseEnhancer.tsv",
+IDs = fread("./datasets/ENdb-DiseaseEnhancer/IDs/ENdb-DiseaseEnhancer.tsv",
             header = T, sep = "\t")
 
 modAvsmodB_dataset_subdivision(source, target, IDs, folder)

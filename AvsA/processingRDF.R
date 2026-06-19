@@ -86,7 +86,7 @@ AvsA_dataset_subdivision = function (source, target) {
 
 #Reading:
 library(data.table)
-source = fread("../datasets/all/ENdb.nt", header = F, sep = ">", quote = "", fill = T)
-target = fread("../datasets/all/ENdb.nt", header = F, sep = ">", quote = "", fill = T)
+source = fread("./datasets/all/ENdb.nt", header = F, sep = ">", quote = "", fill = T)
+target = fread("./datasets/all/ENdb.nt", header = F, sep = ">", quote = "", fill = T)
 
 AvsA_dataset_subdivision(source, target)
