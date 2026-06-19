@@ -98,7 +98,7 @@ Since the databases contain different types of biological entities that can be m
 
 ## Types of pairwise alignments
 
-Different use cases were studied to explore the performance against different scenarios. Alignments of identical graphs ([AvsA](./AvsA/)) and alignments of different graphs at various levels: at attribute level ([attr-AvsB](./attr-AvsB/)), at edge level ([typ-rel-AvsB](./typ-AvsB/) and [rel-AvsB](./rel-AvsB/)), and at attribute and edge level ([AvsB](./AvsB/)).
+Different use cases were studied to explore the performance against different scenarios. Alignments of identical graphs ([AvsA](./AvsA/)) and alignments of different graphs at various levels: at attribute level ([attr-AvsB](./attr-AvsB/)), at edge level ([typ-rel-AvsB](./typ-rel-AvsB/) and [rel-AvsB](./rel-AvsB/)), and at attribute and edge level ([AvsB](./AvsB/)).
 
  - In AvsA alignment, two identical graphs are compared. Since each graph represents the information of one database, the data of the database is aligned against itself. It is expected that this type of alignment gives the best possible alignment results. The results can be particularly useful to evaluate the performance of different alignment methods against a specific domain, with a certain model. However, the results could also be used for other purposes, like the evaluation of the database quality, or whether the semantic schema models the entities with a degree of detail that facilitates the adequate performance of the alignment methods.
 
